@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name":"Facebook Editor Extension",
+    "short_name":"FB Extension",
+    "description":"TO WRITE!!",
+    "version":"1.0",
+    "action":{
+        "default_popup":"index.html"
+    },
+    "permissions":[
+        "activeTab","scripting","tabs"
+    ]
+}
