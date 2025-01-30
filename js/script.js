@@ -1,21 +1,50 @@
-// document.getElementById("btn").addEventListener("click",changeBackColor);
-// function changeBackColor(){
-//     document.body.style.backgroundColor = "red";
-//     chrome.scripting.executeScript({
-//         target:{tabId:tabId},
-//         function:changeColor,
-//         args:["purple"]
-//     })
-// }   
-// function changeColor(color){
-//     document.body.style.backgroundColor = color;
-//     console.log("Color canviat a "+color);
-//     document.querySelector("a.gb_W").innerText="G-MAIL";
-// }
-// let tabId;
-// chrome.tabs.query(
-//     {active:true,currentWindow:true},
-//     function(tabs){
-//     tabId = tabs[0].id;
-//     console.log("tabId: "+tabId);
-// });
+let tabId;
+chrome.tabs.query({
+    active: true,
+    currentWindow: true
+},
+    function (tabs) {
+        let currentTab = tabs[0];
+        if (currentTab) {
+            tabId = currentTab.id;
+        }
+    }
+);
+
+let bgColorBtn = document.getElementById("bgColorBtn");
+bgColorBtn.addEventListener("click", changeColorBg);
+
+function changeColorBg() {
+    chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        func: (color) => {
+            console.log(color);
+            document.body.style.backgroundColor = color;
+        },
+        args: ["red"]
+    });
+}
+
+let linkColorBtn = document.getElementById("linkColorBtn");
+linkColorBtn.addEventListener("click", changeColorLink);
+
+function changeColorLink() {
+    chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        
+    })
+}
+
+let removeImgBtn = document.getElementById("removeImgBtn");
+removeImgBtn.addEventListener("click", removeImg);
+
+function removeImg() {
+
+}
+
+let passwordBtn = document.getElementById("passwordBtn");
+passwordBtn.addEventListener("click", togglePasswordInput);
+
+function togglePasswordInput() {
+
+}
