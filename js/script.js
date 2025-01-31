@@ -1,3 +1,5 @@
+// GENERAL FUNCTIONS
+
 let tabId;
 chrome.tabs.query({
     active: true,
@@ -10,6 +12,32 @@ chrome.tabs.query({
         }
     }
 );
+
+const fbBtn = document.getElementById("fbBtn");
+const amazonBtn = document.getElementById("amazonBtn");
+const facebookContainer = document.getElementById("facebookContainer");
+const amazonContainer = document.getElementById("amazonContainer");
+
+facebookContainer.style.display = "block";
+amazonContainer.style.display = "none";
+
+fbBtn.addEventListener("click", function () {
+    facebookContainer.style.display = "block";
+    amazonContainer.style.display = "none";
+
+    fbBtn.classList.add("active");
+    amazonBtn.classList.remove("active");
+});
+
+amazonBtn.addEventListener("click", function () {
+    amazonContainer.style.display = "block";
+    facebookContainer.style.display = "none";
+
+    amazonBtn.classList.add("active");
+    fbBtn.classList.remove("active");
+});
+
+// FACEBOOK
 
 let bgColorBtn = document.getElementById("bgColorBtn");
 bgColorBtn.addEventListener("click", changeColorBg);
@@ -29,16 +57,13 @@ let linkColorBtn = document.getElementById("linkColorBtn");
 linkColorBtn.addEventListener("click", changeColorLink);
 
 function changeColorLink() {
-    chrome.scripting.executeScript({
-        target: { tabId: tabId },
-        
-    })
+
 }
 
-let removeImgBtn = document.getElementById("removeImgBtn");
-removeImgBtn.addEventListener("click", removeImg);
+let imgBtn = document.getElementById("imgBtn");
+imgBtn.addEventListener("click", toggleImgView);
 
-function removeImg() {
+function toggleImgView() {
 
 }
 
@@ -48,3 +73,5 @@ passwordBtn.addEventListener("click", togglePasswordInput);
 function togglePasswordInput() {
 
 }
+
+// AMAZON

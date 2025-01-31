@@ -1,13 +1,15 @@
 {
     "manifest_version": 3,
-    "name":"Facebook Editor Extension",
-    "short_name":"FB Extension",
-    "description":"TO WRITE!!",
-    "version":"1.0",
-    "action":{
-        "default_popup":"index.html"
+    "name": "Sites Chrome Extension",
+    "short_name": "Sites Extension",
+    "description": "Customize your Facebook page with ease and filter out the best deals on Amazon. Making Facebook more enjoyable and your Amazon shopping more budget-friendly!",
+    "version": "1.0",
+    "action": {
+        "default_popup": "index.html"
     },
-    "permissions":[
-        "activeTab","scripting","tabs"
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "tabs"
     ]
 }
