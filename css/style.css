@@ -1,28 +1,24 @@
 body {
-    min-width: 300px;
+    min-width: 400px;
 }
 
-table {
-    border-collapse: separate;
-    border-spacing: 10px;
-    width: 100%;
-
+.row.row-cols-2 {
+    gap: 10px;
 }
 
-table th,
-table td {
+.row-cols-2 {
+    width: 45%;
+}
+
+.row {
+    align-items: center;
+    justify-content: center;
+}
+
+.col {
     background-color: rgb(231, 242, 252);
-    padding: 20px;
+    padding: 5px;
     border-radius: 10px;
-}
-
-table th {
-    font-weight: bold;
-    color: #333;
-}
-
-table td {
-    color: #666;
 }
 
 
