@@ -11,5 +11,9 @@
         "activeTab",
         "scripting",
         "tabs"
+    ],
+    "host_permissions": [
+        "https://www.facebook.com/*",
+        "https://www.amazon.com/*"
     ]
 }
