@@ -20,7 +20,7 @@ body {
 }
 
 .col {
-    background-color: rgb(231, 242, 252);
+    /* background-color: rgb(231, 242, 252); */
     padding: 5px;
     border-radius: 10px;
 }

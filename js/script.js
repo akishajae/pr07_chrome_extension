@@ -85,6 +85,7 @@ function toggleImgView() {
         func: () => {
             const imgs = document.getElementsByTagName("img");
             for (let img of imgs) {
+                // img.src = null;
                 img.style.display = img.style.display === 'none' ? 'block' : 'none';
             }
         }
@@ -93,23 +94,47 @@ function toggleImgView() {
 
 const passwordBtn = document.getElementById("passwordBtn");
 passwordBtn.addEventListener("click", togglePasswordInput);
+let togglePassword = false;
 
 function togglePasswordInput() {
+    togglePassword = !togglePassword;
+
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         func: () => {
-            console.log('test');
-            const passwordInputs = document.querySelectorAll('input[type="password"]');
-            passwordInputs.forEach(input => {
-                if (!input.hasAttribute('data-is-password')) {
-                    input.setAttribute('data-is-password', true);
-                }
-
-                input.getAttribute('data-is-password') === 'true' ? input.setAttribute('data-is-password', false) : input.setAttribute('data-is-password', true);
-                // input.getAttribute('data-is-password') === 'false' ? input.type = 'text' : input.type = 'password';
-            });
+            if (togglePassword) {
+                const passwords = document.querySelectorAll('input[type="password"]')
+                passwords.forEach(password => {
+                    if (!password.hasAttribute('data-is-password')) {
+                        password.setAttribute('data-is-password', true);
+                    } else {
+                        const passwordInput = document.querySelectorAll('input[data-is-password]');
+                        passwordInput.forEach(input => {
+                            input.type = 'text';
+                            input.setAttribute('data-is-password', false);
+                        });
+                    }
+                });
+            } else {
+                const passwords = document.querySelectorAll('input[type="password"]')
+                passwords.forEach(password => {
+                    if (password.hasAttribute('data-is-password')) {
+                        password.setAttribute('data-is-password', false);
+                        password.type = 'password';
+                        password.setAttribute('data-is-password', true);
+                    }
+                });
+            }
         }
     })
 }
 
 // AMAZON
+
+/**
+ * 
+ * buttons name : sticky menu when clicked
+ * - crea nuevo div con varias opciones, ponerlo en una posición (fixed) right 0, top 0 
+ * - y dentro ponerle botones y eventos
+ * 
+ */
