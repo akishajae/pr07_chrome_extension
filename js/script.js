@@ -49,10 +49,12 @@ function changeColorBg() {
         func: (color) => {
             console.log("bgColor: ", color);
             document.body.style.backgroundColor = color;
-            // const elements = document.getElementsByClassName("_8esj _95k9 _8esf _8opv _8f3m _8ilg _8icx _8op_ _95ka");
-            // for (let element of elements) {
-            //     element.style.backgroundColor = color;
-            // }
+
+            // changes the background as we know, not the tag "body" -->
+            const elements = document.getElementsByClassName("_8esj _95k9 _8esf _8opv _8f3m _8ilg _8icx _8op_ _95ka");
+            for (let element of elements) {
+                element.style.backgroundColor = color;
+            }
         },
         args: ["#9B1212"]
     });
@@ -85,8 +87,14 @@ function toggleImgView() {
         func: () => {
             const imgs = document.getElementsByTagName("img");
             for (let img of imgs) {
-                // img.src = null;
-                img.style.display = img.style.display === 'none' ? 'block' : 'none';
+                // img.src = null; --> deletes img
+
+                //  img.style.display === 'none' ? 'block' : 'none';
+                if (img.style.display == 'none') {
+                    img.style.display = 'block';
+                } else {
+                    img.style.display = 'none';
+                }
             }
         }
     });
@@ -102,29 +110,7 @@ function togglePasswordInput() {
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         func: () => {
-            if (togglePassword) {
-                const passwords = document.querySelectorAll('input[type="password"]')
-                passwords.forEach(password => {
-                    if (!password.hasAttribute('data-is-password')) {
-                        password.setAttribute('data-is-password', true);
-                    } else {
-                        const passwordInput = document.querySelectorAll('input[data-is-password]');
-                        passwordInput.forEach(input => {
-                            input.type = 'text';
-                            input.setAttribute('data-is-password', false);
-                        });
-                    }
-                });
-            } else {
-                const passwords = document.querySelectorAll('input[type="password"]')
-                passwords.forEach(password => {
-                    if (password.hasAttribute('data-is-password')) {
-                        password.setAttribute('data-is-password', false);
-                        password.type = 'password';
-                        password.setAttribute('data-is-password', true);
-                    }
-                });
-            }
+            
         }
     })
 }
@@ -138,3 +124,4 @@ function togglePasswordInput() {
  * - y dentro ponerle botones y eventos
  * 
  */
+

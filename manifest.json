@@ -13,7 +13,7 @@
         "tabs"
     ],
     "host_permissions": [
-        "https://www.facebook.com/*",
-        "https://www.amazon.com/*"
+        "https://es-es.facebook.com/",
+        "https://www.amazon.es/gp/bestsellers/electronics/"
     ]
 }
