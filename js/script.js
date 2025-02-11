@@ -41,22 +41,48 @@ amazonBtn.addEventListener("click", function () {
 
 const bgColorBtn = document.getElementById("bgColorBtn");
 const bgColorInput = document.getElementById("bgColorInput");
+const bgColorIcon = document.getElementById("bgColorIcon");
 bgColorBtn.addEventListener("click", changeColorBg);
 
 function changeColorBg() {
+    if (bgColorIcon.classList.contains('fa-droplet')) {
+        bgColorIcon.classList.remove('fa-droplet', 'p-1');
+        bgColorIcon.classList.add('fa-droplet-slash');
+    } else {
+        bgColorIcon.classList.remove('fa-droplet-slash');
+        bgColorIcon.classList.add('fa-droplet', 'p-1');
+    }
+
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         func: (color) => {
             console.log("bgColor: ", color);
-            document.body.style.backgroundColor = color;
+
+            const body = document.body;
+
+            if (body.style.backgroundColor === color) {
+                console.log('null');
+                body.style.backgroundColor = '';
+            } else {
+                console.log('color');
+                body.style.backgroundColor = color;
+            }
 
             // changes the background as we know, not the tag "body" -->
             const elements = document.getElementsByClassName("_8esj _95k9 _8esf _8opv _8f3m _8ilg _8icx _8op_ _95ka");
             for (let element of elements) {
-                element.style.backgroundColor = color;
+                console.log('element');
+
+                if (element.style.backgroundColor === color) {
+                    console.log('null');
+                    element.style.backgroundColor = '';
+                } else {
+                    console.log('color');
+                    element.style.backgroundColor = color;
+                }
             }
         },
-        args: ["#9B1212"]
+        args: ["rgb(155, 18, 18)"]
     });
 }
 
@@ -71,6 +97,7 @@ function changeColorLink() {
             console.log("linkColor: ", color);
             const links = document.getElementsByTagName("a");
             for (let link of links) {
+
                 link.style.color = color;
             }
         },
@@ -79,9 +106,18 @@ function changeColorLink() {
 }
 
 const imgBtn = document.getElementById("imgBtn");
+const imgIcon = document.getElementById("imgIcon");
 imgBtn.addEventListener("click", toggleImgView);
 
 function toggleImgView() {
+    if (imgIcon.classList.contains('fa-eye')) {
+        imgIcon.classList.remove('fa-eye');
+        imgIcon.classList.add('fa-eye-slash');
+    } else {
+        imgIcon.classList.remove('fa-eye-slash');
+        imgIcon.classList.add('fa-eye');
+    }
+
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         func: () => {
@@ -100,17 +136,43 @@ function toggleImgView() {
     });
 }
 
-const passwordBtn = document.getElementById("passwordBtn");
-passwordBtn.addEventListener("click", togglePasswordInput);
-let togglePassword = false;
+const pswdBtn = document.getElementById("pswdBtn");
+const pswdIcon = document.getElementById("pswdIcon");
+pswdBtn.addEventListener("click", togglePasswordInput);
 
 function togglePasswordInput() {
-    togglePassword = !togglePassword;
+    if (pswdIcon.classList.contains('fa-eye')) {
+        pswdIcon.classList.remove('fa-eye');
+        pswdIcon.classList.add('fa-eye-slash');
+    } else {
+        pswdIcon.classList.remove('fa-eye-slash');
+        pswdIcon.classList.add('fa-eye');
+    }
 
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         func: () => {
-            
+            console.log(1);
+            let passwords = document.querySelectorAll("input[type='password'], input[data-is-pass]");
+
+            passwords.forEach((password) => {
+                let isPass = password.getAttribute('data-is-pass');
+
+                if (isPass === null) {
+                    console.log(2);
+                    isPass = 'true';
+                }
+
+                if (isPass === 'true') {
+                    password.setAttribute('type', 'text');
+                    password.setAttribute('data-is-pass', 'false');
+                    console.log('text');
+                } else {
+                    password.setAttribute('type', 'password');
+                    password.setAttribute('data-is-pass', 'true');
+                    console.log('password');
+                }
+            });
         }
     })
 }
