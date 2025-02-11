@@ -174,7 +174,7 @@ function togglePasswordInput() {
                 }
             });
         }
-    })
+    });
 }
 
 // AMAZON
@@ -186,4 +186,50 @@ function togglePasswordInput() {
  * - y dentro ponerle botones y eventos
  * 
  */
+
+const stickyMenuBtn = document.getElementById("stickyMenuBtn");
+stickyMenuBtn.addEventListener("click", showMenu);
+
+function showMenu() {
+    chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        func: () => {
+            console.log('1');
+
+            const newDiv = document.createElement("div");
+
+            // Set attributes or styles for the div
+            newDiv.textContent = "Hello, this is a new div!";
+            newDiv.style.position = "fixed";
+            newDiv.style.bottom = "20px";
+            newDiv.style.right = "20px";
+            newDiv.style.backgroundColor = "yellow";
+            newDiv.style.padding = "10px";
+            newDiv.style.border = "2px solid black";
+            newDiv.style.zIndex = "10000";
+
+            // Append the div to the body of the website
+            document.body.appendChild(newDiv);
+        }
+    });
+}
+
+/* <div class="container-fluid h-100">
+    <div class="row">
+        <div class="col-8" id="element-1">
+            Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content Some Content
+        </div>
+        <div class="col-4" id="element-2">
+            <div class="sticky-top">
+                <div class="d-flex justify-content-center align-items-center">
+                    I should be in center
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    I should be in center too!
+                </div>
+            </div>
+        </div>
+    </div>
+</div> */
+
 
