@@ -12,24 +12,9 @@ body {
     border-radius: 10px;
 }
 
-.image-container {
-    position: relative;
-    display: inline-block;
+.alt-text-overlay {
+    pointer-events: none; 
 }
-
-.hover-text {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 14px;
-    display: none; /* Hidden initially */
-}
-
 
 /* .gabarito-<uniquifier> {
     font-family: "Gabarito", serif;

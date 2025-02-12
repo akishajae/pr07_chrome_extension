@@ -179,14 +179,6 @@ function togglePasswordInput() {
 
 // AMAZON
 
-/**
- * 
- * buttons name : sticky menu when clicked
- * - crea nuevo div con varias opciones, ponerlo en una posición (fixed) right 0, top 0 
- * - y dentro ponerle botones y eventos
- * 
- */
-
 const stickyMenuBtn = document.getElementById("stickyMenuBtn");
 const menuIcon = document.getElementById("menuIcon");
 let toggleMenuBtn = false;
@@ -217,17 +209,14 @@ function showMenu() {
                     bootstrapLink.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
                     document.head.appendChild(bootstrapLink);
 
-                    // Create preconnect link for fonts.gstatic.com with crossorigin for Font Awesome
                     const preconnectLink1 = document.createElement("link");
                     preconnectLink1.rel = "preconnect";
-                    preconnectLink1.href = "https://cdnjs.cloudflare.com"; // Font Awesome CDN
+                    preconnectLink1.href = "https://cdnjs.cloudflare.com";
 
-                    // Create the Font Awesome stylesheet link
                     const fontAwesomeLink = document.createElement("link");
                     fontAwesomeLink.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css";
                     fontAwesomeLink.rel = "stylesheet";
 
-                    // Append both links to the document head
                     document.head.appendChild(preconnectLink1);
                     document.head.appendChild(fontAwesomeLink);
 
@@ -235,7 +224,7 @@ function showMenu() {
                     menuContainer.setAttribute("id", "menuContainer");
 
                     menuContainer.innerHTML = `
-                        <p>PRODUCTS</p>
+                        <h6>PRODUCTS</h6>
                         <button type="button" id="infoBtn" class="btn btn-outline-primary btn-m m-1">
                             <i id="infoIcon" class="fa-solid fa-eye"></i>
                             <p class="d-inline">Info</p>
@@ -260,65 +249,117 @@ function showMenu() {
                     document.body.appendChild(menuContainer);
                     console.log('creates');
 
-                    document.getElementById("infoBtn").addEventListener("click", showInfo);
-                    document.getElementById("cheapBtn").addEventListener("click", showCheap);
+                    // info btn
+                    document.getElementById("infoBtn").addEventListener("click", () => {
+                        window.toggleInfoBtn = !window.toggleInfoBtn;
+                        const infoIcon = document.getElementById("infoIcon");
+
+                        if (window.toggleInfoBtn) {
+                            infoIcon.classList.remove('fa-eye');
+                            infoIcon.classList.add('fa-eye-slash');
+
+                            document.querySelectorAll("img").forEach(img => {
+                                img.addEventListener("mouseenter", handleMouseEnter);
+                                img.addEventListener("mouseleave", handleMouseLeave);
+                            });
+                        } else {
+                            infoIcon.classList.remove('fa-eye-slash');
+                            infoIcon.classList.add('fa-eye');
+
+                            document.querySelectorAll("img").forEach(img => {
+                                img.removeEventListener("mouseenter", handleMouseEnter);
+                                img.removeEventListener("mouseleave", handleMouseLeave);
+                            });
+                        }
+                    });
+
+                    function handleMouseEnter(event) {
+                        const img = event.target;
+                        const altText = img.alt || "No description";
+
+                        const overlay = document.createElement("div");
+                        overlay.classList.add("alt-overlay");
+                        overlay.innerText = altText;
+
+                        const rect = img.getBoundingClientRect();
+                        overlay.style.position = "absolute";
+                        overlay.style.top = `${rect.top + window.scrollY}px`;
+                        overlay.style.left = `${rect.left + window.scrollX}px`;
+                        overlay.style.width = `${rect.width}px`;
+                        overlay.style.height = `${rect.height}px`;
+                        overlay.style.background = "gold";
+                        overlay.style.opacity = "90%";
+                        overlay.style.display = "flex";
+                        overlay.style.alignItems = "center";
+                        overlay.style.justifyContent = "center";
+                        overlay.style.textAlign = "center";
+                        overlay.style.zIndex = "10000";
+                        overlay.style.pointerEvents = "none";
+                        overlay.setAttribute("data-overlay", "true");
+
+                        document.body.appendChild(overlay);
+                        img.setAttribute("data-overlay-id", altText);
+                    }
+
+                    function handleMouseLeave() {
+                        document.querySelectorAll("[data-overlay]").forEach(el => el.remove());
+                    }
+
+                    // cheap btn
+                    document.getElementById("cheapBtn").addEventListener("click", () => {
+                        window.toggleCheapBtn = !window.toggleCheapBtn;
+                        const cheapIcon = document.getElementById("cheapIcon");
+
+                        if (window.toggleCheapBtn) {
+                            cheapIcon.classList.remove('fa-eye');
+                            cheapIcon.classList.add('fa-eye-slash');
+
+                            highlightCheapestProduct();
+                        } else {
+                            cheapIcon.classList.remove('fa-eye-slash');
+                            cheapIcon.classList.add('fa-eye');
+
+                            removeCheapestHighlight();
+                        }
+                    });
+
+                    function highlightCheapestProduct() {
+                        const products = document.querySelectorAll(".p13n-sc-uncoverable-faceout");
+                        let cheapestProduct = null;
+                        let lowestPrice = Infinity;
+
+                        products.forEach(product => {
+                            const priceElement = product.querySelector("span._cDEzb_p13n-sc-price_3mJ9Z");
+                            if (priceElement) {
+                                const price = parseFloat(priceElement.innerText.replace("€", "").replace(",", ".").trim());
+                                if (!isNaN(price) && price < lowestPrice) {
+                                    lowestPrice = price;
+                                    cheapestProduct = product;
+                                }
+                            }
+                        });
+
+                        if (cheapestProduct) {
+                            cheapestProduct.style.backgroundColor = "mediumspringgreen";
+                            cheapestProduct.style.outline = "5px solid mediumspringgreen";
+                            cheapestProduct.scrollIntoView({ behavior: "smooth", block: "center" });
+                            cheapestProduct.setAttribute("data-cheapest", "true");
+                        }
+                    }
+
+                    function removeCheapestHighlight() {
+                        document.querySelectorAll("[data-cheapest]").forEach(product => {
+                            product.style.backgroundColor = "";
+                            product.style.outline = "none";
+                            product.removeAttribute("data-cheapest");
+                        });
+                    }
                 }
             } else {
                 if (menuContainer) {
                     menuContainer.remove();
                 }
             }
-
-            let toggleInfoBtn = false;
-            let toggleCheapBtn = false;
-
-            window.showInfo = function () {
-                console.log('info');
-
-                toggleInfoBtn = !toggleInfoBtn;
-
-                const infoIcon = document.getElementById("infoIcon");
-
-                if (infoIcon.classList.contains('fa-eye')) {
-                    console.log('2');
-                    infoIcon.classList.remove('fa-eye');
-                    infoIcon.classList.add('fa-eye-slash');
-                } else {
-                    infoIcon.classList.remove('fa-eye-slash');
-                    infoIcon.classList.add('fa-eye');
-                }
-
-                const images = document.querySelectorAll('.a-dynamic-image');
-
-                images.forEach((image) => {
-                    image.classList.add('hover-image');
-
-                    // Create a span for the text overlay and set its content to the alt text of the image
-                    const overlayText = document.createElement('span');
-                    overlayText.classList.add('hover-text');
-                    overlayText.textContent = image.alt;
-
-                    console.log('images');
-
-                    // Create a container div to hold the image and the overlay
-                    const container = document.createElement('div');
-                    container.style.backgroundColor = 'lightblue';
-                    container.classList.add('image-container');
-                    image.parentElement.insertBefore(container, image);
-                    container.appendChild(image);  // Append the image inside the container
-                    container.appendChild(overlayText);  // Append the overlay text
-
-                    // Add event listeners for mouseover and mouseout to show/hide the overlay
-                    image.addEventListener('mouseover', () => {
-                        overlayText.style.display = 'block';
-                    });
-
-                    image.addEventListener('mouseout', () => {
-                        overlayText.style.display = 'none';
-                    });
-                });
-
-            };
 
             window.showCheap = function () {
                 console.log('cheap');
